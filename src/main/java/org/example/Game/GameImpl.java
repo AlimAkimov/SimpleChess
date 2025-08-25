@@ -2,8 +2,11 @@ package org.example.Game;
 
 import org.example.Model.*;
 import org.example.Model.ChessFigures.King;
+import org.example.PGN.PgnFormatter;
+import org.example.PGN.PgnMove;
 import org.example.PrintBoardInConsole.PrintBoard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +17,7 @@ public class GameImpl implements Game{
     private int moveCount;
     private PrintBoard print;
     private boolean hasMoved;
+    private List<PgnMove> moves;
 
     public GameImpl() {
         board = new BoardImpl();
@@ -21,6 +25,7 @@ public class GameImpl implements Game{
         currentPlayer = Color.WHITE;
         moveCount = 0;
         print = new PrintBoard();
+        this.moves = new ArrayList<>();
     }
 
     private boolean hasMoves(Color color) {
@@ -55,18 +60,21 @@ public class GameImpl implements Game{
         List<Figure> figures = board.getFigures(currentPlayer);
         Collections.shuffle(figures, new Random());
         for (Figure figure : figures) {
-            List<Move> moves = figure.getPossibleMoves(board);
-            if (!moves.isEmpty()) {
-                Move move = moves.get(new Random().nextInt(moves.size()));
-                System.out.println(figure.getColor() + " " + figure.getName() + " Ход: " + move.toString());
+            List<Move> possibleMoves = figure.getPossibleMoves(board);
+            if (!possibleMoves.isEmpty()) {
+                Move move = possibleMoves.get(new Random().nextInt(possibleMoves.size()));
+                System.out.println(figure.getColor() + " " + figure.getName() + " Ход: " + move);
+                Figure target = board.getFigure(move.getTo());
+                boolean capture = (target != null);
                 board.move(move);
+                PgnMove pgnMove = new PgnMove(figure, move.getFrom(), move.getTo(), capture);
+                moves.add(pgnMove);
                 moveCount++;
                 hasMoved = true;
                 return;
             }
         }
         hasMoved = false;
-        return;
     }
 
     public void start() {
@@ -86,6 +94,7 @@ public class GameImpl implements Game{
                 break;
             }
         }
+
         String message;
         if (!isKingAlive(Color.WHITE)) {
             message = "Игра окончена, белый король пал. Победили чёрные.";
@@ -96,7 +105,19 @@ public class GameImpl implements Game{
         }
         System.out.println(message + " Всего было ходов: " + moveCount);
         print.printBoard(board);
+
+        printGame();
     }
 
-
+    private void printGame() {
+        System.out.println("\nPGN запись:");
+        for (int i = 0; i < moves.size(); i++) {
+            if (i % 2 == 0) {
+                int turn = i / 2 + 1;
+                System.out.print(turn + ". ");
+            }
+            System.out.print(PgnFormatter.format(moves.get(i)) + " ");
+        }
+        System.out.println();
+    }
 }

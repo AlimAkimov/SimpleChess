@@ -12,4 +12,6 @@ public interface Board {
     void move(Move move);
 
     List<Figure> getFigures(Color color);
+
+    public boolean positionIsUnderAttack(Position position, Color attackerColor);
 }

@@ -8,14 +8,14 @@ public class Position {
 
 
     public Position(int col,int row) {
-        if (!isValidPosition(col, row)) {
+        if (!isOnBoard(col, row)) {
             throw new IllegalArgumentException("Invalid position: row=" + row + ", col=" + col);
         }
         this.row = row;
         this.col = col;
     }
 
-    public static boolean isValidPosition(int col, int row) {
+    public static boolean isOnBoard(int col, int row) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 

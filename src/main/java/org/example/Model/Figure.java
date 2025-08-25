@@ -38,7 +38,7 @@ public abstract class Figure {
         for (int i = 1; i <= 7; i++) {
             int newCol = currentPosition.getCol() + i * dCol;
             int newRow = currentPosition.getRow() + i * dRow;
-            if (Position.isValidPosition(newCol, newRow)) {
+            if (Position.isOnBoard(newCol, newRow)) {
                 Position validPosition = new Position(newCol, newRow);
                 if (board.isEmpty(validPosition)) {
                     moves.add(new Move(currentPosition, validPosition));
@@ -54,4 +54,5 @@ public abstract class Figure {
             }
         }
     }
+    public abstract List<Position> getAttackCells(Board board);
 }

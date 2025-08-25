@@ -30,7 +30,6 @@ public class Queen extends Figure {
         return moves;
     }
 
-
     @Override
     public char getSymbol() {
         if (getColor() == Color.WHITE) {
@@ -43,5 +42,9 @@ public class Queen extends Figure {
         return "Queen";
     }
 
+    @Override
+    public List<Position> getAttackCells(Board board) {
+        return List.of();
+    }
 }
 

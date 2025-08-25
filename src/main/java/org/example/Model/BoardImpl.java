@@ -5,7 +5,7 @@ import org.example.Model.ChessFigures.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardImpl implements Board{
+public class BoardImpl implements Board {
     private static final int BOARD_SIZE = 8;
     private final Figure[][] board = new Figure[BOARD_SIZE][BOARD_SIZE];
 
@@ -74,6 +74,19 @@ public class BoardImpl implements Board{
         }
         return figures;
     }
+
+    @Override
+    public boolean positionIsUnderAttack(Position pos, Color byColor) {
+        List<Figure> figures = getFigures(byColor);
+        for (Figure figure : figures) {
+            List<Position> attacks = figure.getAttackCells(this);
+            if (attacks.contains(pos)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
 

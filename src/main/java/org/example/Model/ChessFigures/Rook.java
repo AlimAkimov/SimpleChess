@@ -37,6 +37,9 @@ public class Rook extends Figure {
         return "Rook";
     }
 
-
+    @Override
+    public List<Position> getAttackCells(Board board) {
+        return List.of();
+    }
 }
 

@@ -32,7 +32,7 @@ public class Knight extends Figure {
     private void addKnightMoves(Board board, List<Move> moves, Position currentPosition, int col, int row) {
         int newCol = currentPosition.getCol() + col;
         int newRow = currentPosition.getRow() + row;
-        if (Position.isValidPosition(newCol, newRow)) {
+        if (Position.isOnBoard(newCol, newRow)) {
             Position validPosition = new Position(newCol, newRow);
             if (board.isEmpty(validPosition)) {
                 moves.add(new Move(currentPosition, validPosition));
@@ -56,6 +56,11 @@ public class Knight extends Figure {
     @Override
     public String getName() {
         return "Knight";
+    }
+
+    @Override
+    public List<Position> getAttackCells(Board board) {
+        return List.of();
     }
 
 }
