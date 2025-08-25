@@ -50,6 +50,24 @@ public class Pawn extends Figure {
     }
 
     @Override
+    public List<Position> getAttackCells(Board board) {
+        List<Position> attacks = new ArrayList<>();
+        int row = getPosition().getRow();
+        int col = getPosition().getCol();
+        int direction = (getColor() == Color.WHITE) ? 1 : -1;
+
+        int[] captureCols = {-1, 1}; // Диагонали
+        for (int dCol : captureCols) {
+            int newCol = col + dCol;
+            int newRow = row + direction;
+            if (Position.isOnBoard(newCol, newRow)) {
+                attacks.add(new Position(newCol, newRow));
+            }
+        }
+        return attacks;
+    }
+
+    @Override
     public char getSymbol() {
         if (getColor() == Color.WHITE) {
             return 'P';
@@ -66,8 +84,5 @@ public class Pawn extends Figure {
         return "Pawn";
     }
 
-    @Override
-    public List<Position> getAttackCells(Board board) {
-        return List.of();
-    }
+
 }

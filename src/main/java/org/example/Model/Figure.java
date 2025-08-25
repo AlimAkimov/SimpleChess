@@ -34,10 +34,10 @@ public abstract class Figure {
 
     public abstract String getName();
 
-    protected void addSlidingMoves(Board board, List<Move> moves, Position currentPosition, int dCol, int dRow) {
+    protected void addSlidingMoves(Board board, List<Move> moves, Position currentPosition, int col, int row) {
         for (int i = 1; i <= 7; i++) {
-            int newCol = currentPosition.getCol() + i * dCol;
-            int newRow = currentPosition.getRow() + i * dRow;
+            int newCol = currentPosition.getCol() + i * col;
+            int newRow = currentPosition.getRow() + i * row;
             if (Position.isOnBoard(newCol, newRow)) {
                 Position validPosition = new Position(newCol, newRow);
                 if (board.isEmpty(validPosition)) {
@@ -50,6 +50,20 @@ public abstract class Figure {
                     break;
                 }
             } else {
+                break;
+            }
+        }
+    }
+
+    protected void addSlidingAttacks(Board board, List<Position> attacks, Position currentPosition, int col, int row) {
+        for (int i = 1; i <= 7; i++) {
+            int newCol = currentPosition.getCol() + i * col;
+            int newRow = currentPosition.getRow() + i * row;
+            if (!Position.isOnBoard(newCol, newRow)) {
+                break;
+            }
+            attacks.add(new Position(newCol, newRow));
+            if (!board.isEmpty(new Position(newCol, newRow))) {
                 break;
             }
         }

@@ -31,6 +31,23 @@ public class Queen extends Figure {
     }
 
     @Override
+    public List<Position> getAttackCells(Board board) {
+        List<Position> attacks = new ArrayList<>();
+        Position currentPosition = getPosition();
+
+        addSlidingAttacks(board, attacks, currentPosition, 1, 0);
+        addSlidingAttacks(board, attacks, currentPosition, -1, 0);
+        addSlidingAttacks(board, attacks, currentPosition, 0, 1);
+        addSlidingAttacks(board, attacks, currentPosition, 0, -1);
+        addSlidingAttacks(board, attacks, currentPosition, 1, 1);
+        addSlidingAttacks(board, attacks, currentPosition, 1, -1);
+        addSlidingAttacks(board, attacks, currentPosition, -1, 1);
+        addSlidingAttacks(board, attacks, currentPosition, -1, -1);
+
+        return attacks;
+    }
+
+    @Override
     public char getSymbol() {
         if (getColor() == Color.WHITE) {
             return 'Q';
@@ -42,9 +59,6 @@ public class Queen extends Figure {
         return "Queen";
     }
 
-    @Override
-    public List<Position> getAttackCells(Board board) {
-        return List.of();
-    }
+
 }
 
