@@ -22,13 +22,13 @@ public class Pawn extends Figure {
 
         //ход на 1 клетку вперед
         int newRow = row + direction;
-        if (Position.isValidPosition(col, newRow) && board.isEmpty(new Position(col, newRow))) {
+        if (Position.isOnBoard(col, newRow) && board.isEmpty(new Position(col, newRow))) {
             moves.add(new Move(getPosition(), new Position(col, newRow)));
         }
         //2 клетки
         if (!hasMoved) {
             newRow = row + 2 * direction;
-            if (Position.isValidPosition(col, newRow) &&
+            if (Position.isOnBoard(col, newRow) &&
                     board.isEmpty(new Position(col, newRow)) &&
                     board.isEmpty(new Position(col, row + direction))) {
                 moves.add(new Move(getPosition(), new Position(col, newRow)));
@@ -39,7 +39,7 @@ public class Pawn extends Figure {
         for (int cap : capture) {
             newRow = row + direction;
             int newCol = col + cap;
-            if (Position.isValidPosition(newCol, newRow)) {
+            if (Position.isOnBoard(newCol, newRow)) {
                 Figure opponentsFigure = board.getFigure(new Position(newCol, newRow));
                 if (opponentsFigure != null && isEnemy(opponentsFigure)) {
                     moves.add(new Move(getPosition(), new Position(newCol, newRow)));
@@ -64,5 +64,10 @@ public class Pawn extends Figure {
     @Override
     public String getName() {
         return "Pawn";
+    }
+
+    @Override
+    public List<Position> getAttackCells(Board board) {
+        return List.of();
     }
 }

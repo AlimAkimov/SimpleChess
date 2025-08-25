@@ -37,4 +37,9 @@ public class Bishop extends Figure {
     public String getName() {
         return "Bishop";
     }
+
+    @Override
+    public List<Position> getAttackCells(Board board) {
+        return List.of();
+    }
 }
