@@ -26,6 +26,19 @@ public class Bishop extends Figure {
     }
 
     @Override
+    public List<Position> getAttackCells(Board board) {
+        List<Position> attacks = new ArrayList<>();
+        Position currentPosition = getPosition();
+
+        addSlidingAttacks(board, attacks, currentPosition, 1, 1);
+        addSlidingAttacks(board, attacks, currentPosition, 1, -1);
+        addSlidingAttacks(board, attacks, currentPosition, -1, 1);
+        addSlidingAttacks(board, attacks, currentPosition, -1, -1);
+
+        return attacks;
+    }
+
+    @Override
     public char getSymbol() {
         if (getColor() == Color.WHITE) {
             return 'B';
@@ -36,10 +49,5 @@ public class Bishop extends Figure {
     @Override
     public String getName() {
         return "Bishop";
-    }
-
-    @Override
-    public List<Position> getAttackCells(Board board) {
-        return List.of();
     }
 }

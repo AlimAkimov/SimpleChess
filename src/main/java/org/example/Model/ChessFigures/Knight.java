@@ -46,6 +46,31 @@ public class Knight extends Figure {
     }
 
     @Override
+    public List<Position> getAttackCells(Board board) {
+        List<Position> attacks = new ArrayList<>();
+        Position currentPosition = getPosition();
+
+        addKnightAttacks(board, attacks, currentPosition, 2, 1);
+        addKnightAttacks(board, attacks, currentPosition, 2, -1);
+        addKnightAttacks(board, attacks, currentPosition, -2, 1);
+        addKnightAttacks(board, attacks, currentPosition, -2, -1);
+        addKnightAttacks(board, attacks, currentPosition, 1, 2);
+        addKnightAttacks(board, attacks, currentPosition, 1, -2);
+        addKnightAttacks(board, attacks, currentPosition, -1, 2);
+        addKnightAttacks(board, attacks, currentPosition, -1, -2);
+
+        return attacks;
+    }
+
+    private void addKnightAttacks(Board board, List<Position> attacks, Position currentPosition, int col, int row) {
+        int newCol = currentPosition.getCol() + col;
+        int newRow = currentPosition.getRow() + row;
+        if (Position.isOnBoard(newCol, newRow)) {
+            attacks.add(new Position(newCol, newRow));
+        }
+    }
+
+    @Override
     public char getSymbol() {
         if (getColor() == Color.WHITE) {
             return 'N';
@@ -56,11 +81,6 @@ public class Knight extends Figure {
     @Override
     public String getName() {
         return "Knight";
-    }
-
-    @Override
-    public List<Position> getAttackCells(Board board) {
-        return List.of();
     }
 
 }
